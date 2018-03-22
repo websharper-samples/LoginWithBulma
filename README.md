@@ -1,7 +1,7 @@
 # First steps: Using HTML templates, accessing form values, and wiring events
 > Written by Adam Granicz, IntelliFactory.
 
-Congratulations on taking the first step to learn WebSharper! We have carefully put together this hands-on tutorial with the aim to help you get started with WebSharper and on your way to learn functional, reactive web development, putting you on a fast track to unleash the real web developer in you. The skills you pick up with WebSharper will make you a better web developer, and the concepts you learn will remain valid and useful with other functional, reactive web frameworks and libraries as well. You can find links to further material below and the sources of this tutorial in the bottom of this page.
+Congratulations on taking the first step to learn WebSharper! We have carefully put together this hands-on tutorial with the aim to help you get started with WebSharper and on your way to learn functional, reactive web development, putting you on a fast track to unleash the real web developer in you. The skills you pick up with WebSharper will make you a better web developer, and the concepts you learn will remain valid and useful with other functional, reactive web frameworks and libraries as well. You can find links to further material below and the sources of this tutorial in the bottom of this page. Or simply [see the resulting app in action live on Try WebSharper](http://try.websharper.com/snippet/adam.granicz/0000Jn).
 
 ## What you will learn and where you can find out more
 
@@ -11,29 +11,29 @@ Congratulations on taking the first step to learn WebSharper! We have carefully 
 
 ## Our application: Login page for an SPA
 
-In this tutorial, you will learn how to work with external HTML files (aka. templates) and how to implement your application logic into them. For this, we will take a [login page](https://dansup.github.io/bulma-templates/templates/login.html) from [dansup](https://github.com/dansup)'s wonderful free [Bulma template collection](https://dansup.github.io/bulma-templates/). Our app will look pretty much the same and also implement basic form validation:
+In this tutorial, you will learn how to work with external HTML files (aka. templates) and how to implement your application logic into them. For this, you will take a [login page](https://dansup.github.io/bulma-templates/templates/login.html) from [dansup](https://github.com/dansup)'s wonderful free [Bulma template collection](https://dansup.github.io/bulma-templates/). Your app will look pretty much the same and also implement basic form validation:
 
 ![](https://i.imgur.com/E8Uv7oNl.png)
 
-> The main takeaway of this tutorial is that you should use HTML templates as much as possible instead of inlining HTML code into your application logic. While it's certainly easy to construct HTML in C# or F# (by using the HTML combinators defined in `WebSharper.UI.Html`), it's our recommendation that you avoid it as much as you can for **better logic vs presentation separation**.
+> The main takeaway of this tutorial is that you should use HTML templates as much as possible instead of inlining HTML code into your application logic. While it's certainly easy to construct HTML in C# or F# (by using the HTML combinators defined in `WebSharper.UI.Html`), it's our recommendation that you avoid it as much as you can for **better logic vs. presentation separation**.
 
 ## Prerequisites
 
-To get the most out of this tutorial, please make sure you have installed:
+To get the most out of this tutorial, make sure you have installed:
 
  * .NET Core 2.0+ and ASP.NET Core
- * the latest WebSharper templates
- * Visual Studio Code and/or Visual Studio 2017
+ * the [latest WebSharper templates](http://websharper.com/downloads)
+ * Visual Studio Code with [Ionide](http://ionide.io/) and/or Visual Studio 2017
  
 ## 1. Create your first SPA with WebSharper
 
-Grab a command prompt, `cd` into the folder you want to use for your new project, and do:
+Grab a command prompt, `cd` into the folder you want to use for your new project, and type:
 ```text
 dotnet new websharper-spa -lang f# -n MyProject
 ```
-This will create a new WebSharper SPA project for you. We will use F# for this tutorial, but you can also choose to create a C# project (just leave off the `-lang f#` part) and adapt the sources we discuss here. Go ahead and open this project with your favorite editor.
+This will create a new WebSharper SPA project for you. You will use F# for this tutorial, but you can also choose to create a C# project (just leave off the `-lang f#` part) and adapt the sources we discuss here. Go ahead and open this project with your favorite editor.
 
-## 2. Get to know your files
+## 2. Project structure
 
 ![](https://i.imgur.com/nhnYqYBm.png)
 
@@ -43,7 +43,7 @@ This will create a new WebSharper SPA project for you. We will use F# for this t
 * `Program.fs` / `Startup.fs` - The minimal boilerplate to run/host your app with the default ASP.NET Core web server
 * `wsconfig.json` - Your WebSharper configuration file - normally, it's all set up for you
 
-## 3. Bringing in your HTML code
+## 3. Bring your HTML
 
 The SPA project you just created consists of a sample template that you can simply replace with the new markup from the login template. To see what's going on underneath, follow these steps:
 
@@ -68,21 +68,25 @@ The SPA project you just created consists of a sample template that you can simp
 
    <script type="text/javascript" src="Content/MyProject.head.js"></script>
     ```
-    This will give us a `.hidden` CSS class to hide things (always comes handy), and also make sure that **any dependencies are correctly brought into the page** when needed.
+    This will give you a `.hidden` CSS class to hide things (always comes handy), and also make sure that **any dependencies are correctly brought into the page** by WebSharper when needed.
 
 4. Re-add the following block to the bottom of the `<body>` section:
     ```html
     <script type="text/javascript" src="Content/MyProject.min.js"></script>
     ```
-    This will **load the JavaScript code WebSharper generates** for our SPA.
+    This will **load the JavaScript code WebSharper generates** for your SPA.
 
-5. Feel free to update the `<title>...</title>` with the title you prefer to give to your app.
+5. Wrap the login form in a template called `LoginForm`, and mark its container node with an `id="main"`. Say, you pick `<div class="box">` node for the template boundary, then change that line to:
+    ```html
+    <div class="box" ws-children-template="LoginForm" id="main">
+    ```
+7. Feel free to update the `<title>...</title>` with the title you prefer to give to your app.
 
-6. Change the links below the login form as you see fit (we won't deal with those in this tutorial.)
+8. Change the links below the login form as you see fit (we won't deal with those in this tutorial.)
 
-## 4. Implementing login with validation
+## 4. Main task: implementing login with validation
 
-Now that we have the skeleton of our login page, we can quickly wire in the necessary logic. First, we need to be able to access the email and password values the user types in. The WebSharper way of doing that is going into the template and marking the input controls that supply values to the F# layer with a `ws-var` attribute. We also want to implement some basic validation and use Bulma's `is-danger` class to visually indicate when an input control is not giving what we are expecting. So we add in `ws-attr` attributes as well. So change these lines to:
+Now that you have the skeleton of your login page, you can quickly wire in the necessary logic. First, you need to be able to access the email and password values the user types in. The WebSharper way of doing that is going into the template and marking the input controls that supply values to the F# layer with a `ws-var` attribute. You also want to implement some basic validation and use Bulma's `is-danger` class to visually indicate when an input control is not giving what you are expecting. So add in `ws-attr` attributes as well, and change the relevant lines to:
 
 ```html
 ...
@@ -94,18 +98,18 @@ Now that we have the skeleton of our login page, we can quickly wire in the nece
 ...
 ```
 
-Also, add a `ws-onclick` attribute to the Login button so we can wire a click event handler to it:
+Also, add a `ws-onclick` attribute to the Login button so you can wire a click event handler to it:
 
 ```html
 ...
    <button ws-onclick="Login" class="button is-block is-info is-large is-fullwidth">Login</button>
 ...
 ```
-Now, we are ready to write our F# logic and switch over to `Client.fs`. If we didn't have to worry about validation, things will be super simple, but in our case we want the full enchilada so we also introduce a couple reactive variables to stand for whether the email and password fields are valid.
+Now, you are ready to write your F# logic and switch over to `Client.fs`. If you didn't have to worry about validation, things would be super simple, but in this case you want the full enchilada, so you also introduce a couple reactive variables as your data model (`passwordValid` and `emailValid`) to tell whether the email and password fields are valid.
 
 ![](https://i.imgur.com/9AHo0srl.png)
 
-At this point, we can see that the WebSharper UI templating type provider conveniently feeds back the reactive variables and attributes we defined above inside the `LoginForm` template, and we can simply set these up as follows:
+At this point, you can see that the WebSharper UI templating type provider conveniently feeds back the reactive variables and attributes you defined above inside the `LoginForm` template, and we can simply set these up as follows:
 
 1. Show a visual validation error for the Email input box if `emailValid` is false by applying Bulma's `is-danger` class:
     ```fsharp
@@ -118,7 +122,7 @@ At this point, we can see that the WebSharper UI templating type provider conven
         .AttrPassword(Attr.DynamicClassPred "is-danger" (View.Map not passwordValid.View))
     ```
 
-3. Now, let's handle the Login button click - this is what decides what constitutes a valid input (no empty fields) and simply putting up a popup if login is successful (this is where you would do a server call to authenticate the user and to log them in by creating a user session):
+3. Now, handle the Login button click - this is what decides what constitutes a valid input (no empty fields) and simply putting up a popup alert if login is successful (this is where you would do a server call to authenticate your users and to log them in by creating a user session):
     ```fsharp
         .Login(fun e ->
             passwordValid := not (String.IsNullOrWhiteSpace e.Vars.Password.Value)
@@ -129,17 +133,18 @@ At this point, we can see that the WebSharper UI templating type provider conven
             e.Event.PreventDefault()
         )
     ```
-    > Note how `e` in the login handler enables you to **access all the input values** through `e.Vars`. You can also use these to **set their values on the UI** - two-way binding in WebSharper UI is super easy.
+    > Note how `e` in the login handler enables you to **access all the input values** through `e.Vars`. You can also use these to **set their values on the UI** - two-way binding in WebSharper UI really rocks.
 
-4. And last, we need to seal these  and inject our login form to the `#main` template placeholder:
+4. And last, seal these and inject your login form to the `#main` placeholder you added earlier:
     ```fsharp
         .Doc()
     |> Doc.RunById "main"
     ```
+And boom, you are done.
 
-## 5. Other considerations
+## 5. Further improvements
 
-Our login app is 30 lines of F# code, and even for such a short tutorial like this one, we can pull off one more trick. Say, we wanted to add **error messages** below the input boxes failing validation. Bulma's way is to add these to the markup after each input control - and all we need as extra is another `ws-attr` attribute:
+Your login app is 30 lines of F# code, and even for a short tutorial like this one, you can pull off one more trick. Say, you wanted to add **error messages** below the input boxes that are failing validation. Bulma's way is to add these to the markup after each input control. In addition, all you need as extra is another `ws-attr` attribute:
 
 ```html
 <div class="field">
@@ -150,16 +155,16 @@ Our login app is 30 lines of F# code, and even for such a short tutorial like th
 </div>
 ```
 
-The last bit is handling the showing/hiding of this error message in `Client.fs` by applying the `hidden` class we added to our template earlier:
+The last bit is handling the showing/hiding of this error message in `Client.fs` by applying the `hidden` class you added to the template earlier:
 
 ```fsharp
     .AttrEmailMessage(Attr.DynamicClassPred "hidden" emailValid.View)
 ```
 
-We leave it to you as an exercise to show a similar error message for the password box; just a small hint: it looks exactly like above.
+As a bonus exercise, you can add a similar error message for the password field as well, and just a  hint: it will look exactly like what you did above.
 
 ## Source code and try the app
 
-You can fork [this SPA project](https://github.com/websharper-samples/LoginWithBulma) with all of its 35 lines of F# code and the adapted HTML template via GitHub. You can also [try out a slightly adapted version](http://try.websharper.com/snippet/adam.granicz/0000Jn) live on Try WebSharper.
+You can fork [this SPA project](https://github.com/websharper-samples/LoginWithBulma) via GitHub, it's a whopping 35 LOC F# in its entirety - enjoy! You can also [try out a slightly adapted version](http://try.websharper.com/snippet/adam.granicz/0000Jn) live on Try WebSharper.
 
 Happy coding!
