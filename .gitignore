@@ -1,0 +1,5 @@
+/src/*.user
+/src/wwwroot/Content
+/src/.vs/*
+/src/bin/*
+/src/obj/*
