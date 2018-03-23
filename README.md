@@ -39,7 +39,7 @@ This will create a new WebSharper SPA project for you. You will use F# for this 
 
 ![](https://i.imgur.com/nhnYqYBm.png)
 
-* `wwwroot\index.html` - Your main SPA - this is the file you open to run your app
+* `wwwroot/index.html` - Your main SPA - this is the file you open to run your app
 * `Client.fs` - The logic for your SPA - this is where your F# code will be
 * `MyProject.fsproj` - The .NET Core project file for your SPA
 * `Program.fs` / `Startup.fs` - The minimal boilerplate to run/host your app with the default ASP.NET Core web server
@@ -101,7 +101,7 @@ Also, add a `ws-onclick` attribute to the Login button so you can wire a click e
 ```
 Now, you are ready to write your F# logic and switch over to `Client.fs`. If you didn't have to worry about validation, things would be super simple, but in this case you want the full enchilada, so you will also use a couple reactive variables as a mini data model (`passwordValid` and `emailValid`) to tell whether the email and password fields are valid.
 
-![](https://i.imgur.com/9AHo0srl.png)
+![](https://i.imgur.com/KblwDbd.png)
 
 At this point, you can see that the WebSharper UI templating type provider conveniently feeds back the reactive variables and attributes you defined in your master template, and you can simply set these up as follows:
 
