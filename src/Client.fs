@@ -18,11 +18,11 @@ module Client =
     let Main () =
         let passwordValid = Var.Create true
         let emailValid = Var.Create true
-        MySPA.LoginForm()
-            .AttrEmail(Attr.DynamicClassPred "is-danger" (View.Map not emailValid.View))
-            .AttrEmailMessage(Attr.DynamicClassPred "hidden" emailValid.View)
-            .AttrPassword(Attr.DynamicClassPred "is-danger" (View.Map not passwordValid.View))
-            .AttrPasswordMessage(Attr.DynamicClassPred "hidden" passwordValid.View)
+        MySPA()
+            .AttrEmail(Attr.ClassPred "is-danger" (not emailValid.V))
+            .AttrEmailMessage(Attr.ClassPred "hidden" emailValid.V)
+            .AttrPassword(Attr.ClassPred "is-danger" (not passwordValid.V))
+            .AttrPasswordMessage(Attr.ClassPred "hidden" passwordValid.V)
             .Login(fun e ->
                 passwordValid := not (String.IsNullOrWhiteSpace e.Vars.Password.Value)
                 emailValid := not (String.IsNullOrWhiteSpace e.Vars.Email.Value)
@@ -31,5 +31,4 @@ module Client =
                     JS.Alert (sprintf "Your email is %s" e.Vars.Email.Value)
                 e.Event.PreventDefault()
             )
-            .Doc()
-        |> Doc.RunById "main"
+            .Bind()
