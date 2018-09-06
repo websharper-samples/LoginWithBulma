@@ -13,7 +13,6 @@ build_script:
 test: off
 
 on_success:
-  - ps: .\tools\publish-site.ps1
   - ps: .\tools\gh-pages.ps1 -action publish -env appveyor
 
 environment:
