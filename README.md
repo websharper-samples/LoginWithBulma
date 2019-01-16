@@ -1,5 +1,6 @@
 
-# First steps: Using HTML templates, accessing form values, and wiring events
+# First steps: Using HTML templates, accessing form values, and wiring events [![Build status](https://ci.appveyor.com/api/projects/status/7j6srhg4o4ombggs?svg=true)](https://ci.appveyor.com/project/IntelliFactory/loginwithbulma)
+
 > Written by Adam Granicz, IntelliFactory.
 
 Congratulations on taking the first step to learn WebSharper! We have carefully put together this hands-on tutorial with the aim to help you get started with WebSharper and on your way to learn functional, reactive web development, putting you on a fast track to unleash the real web developer in you. The skills you pick up with WebSharper will make you a better web developer, and the concepts you learn will remain valid and useful with other functional, reactive web frameworks and libraries as well. You can find links to further material below and the sources of this tutorial in the bottom of this page, and you can see the resulting app in action [on github.io](https://websharper-samples.github.io/LoginWithBulma/) or [on Try WebSharper](http://try.websharper.com/snippet/adam.granicz/0000Jn).
