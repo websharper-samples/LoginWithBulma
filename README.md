@@ -14,7 +14,7 @@ Congratulations on taking the first step to learn WebSharper! We have carefully 
 
 ## Our application: Login page for an SPA
 
-In this tutorial, you will learn how to work with external HTML files (aka. templates) and how to implement your application logic into them. For this, you will take a [login page](https://dansup.github.io/bulma-templates/templates/login.html) from [dansup](https://github.com/dansup)'s wonderful free [Bulma template collection](https://dansup.github.io/bulma-templates/). Your app will look pretty much the same and also implement basic form validation:
+In this tutorial, you will learn how to work with external HTML files (aka. templates) and how to implement your application logic into them. For this, you will take a [login page](https://bulmatemplates.github.io/bulma-templates/templates/login.html) from [dansup](https://github.com/dansup)'s wonderful free [Bulma template collection](https://bulmatemplates.github.io/bulma-templates/). Your app will look pretty much the same and also implement basic form validation:
 
 ![](https://i.imgur.com/E8Uv7oNl.png)
 
@@ -50,7 +50,7 @@ This will create a new WebSharper SPA project for you. You will use F# for this 
 
 The SPA project you just created consists of a sample template that you can simply replace with the new markup from the login template. To see what's going on underneath, follow these steps:
 
-1. Replace `wwwroot/index.html` with the source of the [login page](https://dansup.github.io/bulma-templates/templates/login.html)
+1. Replace `wwwroot/index.html` with the source of the [login page](https://bulmatemplates.github.io/bulma-templates/templates/login.html)
 2. Download `login.css` from the login template as `wwwroot/css/login.css`, and update the reference to it in `wwwroot/index.html` accordingly:
     ```html
       ..
