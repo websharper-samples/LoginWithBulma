@@ -1,22 +1,23 @@
-namespace MyProject
-
-open System
 open Microsoft.AspNetCore.Builder
-open Microsoft.AspNetCore.Hosting
-open Microsoft.AspNetCore.Http
-open Microsoft.Extensions.Configuration
-open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Hosting
+open WebSharper.AspNetCore
 
-type Startup() =
+[<EntryPoint>]
+let main args =
+    let builder = WebApplication.CreateBuilder(args)
 
-    member this.ConfigureServices(services: IServiceCollection) =
-        ()
+    builder.Services.AddWebSharper() |> ignore
 
-    member this.Configure(app: IApplicationBuilder, env: IHostingEnvironment) =
-        if env.IsDevelopment() then app.UseDeveloperExceptionPage() |> ignore
+    let app = builder.Build()
 
-        app.UseDefaultFiles()
-            .UseStaticFiles()
-            .Run(fun context ->
-                context.Response.StatusCode <- 404
-                context.Response.WriteAsync("Page not found"))
+    if not (app.Environment.IsDevelopment()) then
+        app.UseExceptionHandler("/Error").UseHsts() |> ignore
+
+    app.UseHttpsRedirection()
+       .UseDefaultFiles()
+       .UseStaticFiles()
+    |> ignore
+
+    app.Run()
+
+    0 // Exit code
