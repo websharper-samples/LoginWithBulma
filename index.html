@@ -1,64 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MyProject</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-  <!-- Bulma Version 0.6.0 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css" integrity="sha256-HEtF7HLJZSC3Le1HcsWbz1hDYFPZCqDhZa9QsCgVUdw=" crossorigin="anonymous" />
-  <link rel="stylesheet" type="text/css" href="css/login.css">
-  <style>
-    /* Don't show the not-yet-loaded templates */
-    [ws-template], [ws-children-template] { display: none; }
-    .hidden { display: none; }
-</style>
-<script type="text/javascript" src="Content/MyProject.head.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login with Bulma</title>
+  <!-- Bulma -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/login.css" />
+  <script type="text/javascript" src="Scripts/LoginWithBulma.head.js"></script>
 </head>
-<body>
-  <section class="hero is-success is-fullheight">
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <div class="column is-4 is-offset-4">
-          <h3 class="title has-text-grey">Login</h3>
-          <p class="subtitle has-text-grey">Please login to proceed.</p>
-          <div class="box">
-            <figure class="avatar">
-              <img src="https://placehold.it/128x128">
-            </figure>
-            <form>
-              <div class="field">
-                <div class="control">
-                  <input ws-var="Email" ws-attr="AttrEmail" class="input is-large" type="email" placeholder="Your Email" autofocus="">
-                </div>
-                <p ws-attr="AttrEmailMessage" class="is-danger help">Please enter an email address</p>
-              </div>
-              <div class="field">
-                <div class="control">
-                  <input ws-var="Password" ws-attr="AttrPassword" class="input is-large" type="password" placeholder="Your Password">
-                </div>
-                <p ws-attr="AttrPasswordMessage" class="is-danger help">Please enter a password</p>
-              </div>
-              <div class="field">
-                <label class="checkbox">
-                  <input ws-var="RememberMe" type="checkbox">
-                  Remember me
-                </label>
-              </div>
-              <button ws-onclick="Login" class="button is-block is-info is-large is-fullwidth">Login</button>
-            </form>
+<body class="login-body">
+  <main class="login-shell">
+    <div class="box login-card">
+      <div class="login-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3.5" y="10.5" width="17" height="10.5" rx="2.5"></rect>
+          <path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"></path>
+          <circle cx="12" cy="15.7" r="1.3" fill="currentColor" stroke="none"></circle>
+        </svg>
+      </div>
+
+      <h1 class="title is-4 has-text-centered login-title">Welcome back</h1>
+      <p class="subtitle is-6 has-text-centered has-text-grey login-subtitle">
+        Sign in to continue to your account
+      </p>
+
+      <form ws-onsubmit="Login" novalidate>
+        <div class="field">
+          <label class="field-label-compact" for="email">Email</label>
+          <div class="control has-icons-left">
+            <input id="email" class="input" type="email" placeholder="you@example.com"
+                   autocomplete="email" ws-var="Email" ws-attr="AttrEmail" />
+            <span class="icon is-small is-left">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.5" y="5" width="19" height="14" rx="2"></rect>
+                <path d="m3 7 9 6 9-6"></path>
+              </svg>
+            </span>
           </div>
-          <p class="has-text-grey">
-            <a href="#">Sign Up</a> &nbsp;·&nbsp;
-            <a href="#">Forgot Password</a> &nbsp;·&nbsp;
-            <a href="#">Need Help?</a>
+          <p class="help is-danger login-error" ws-attr="AttrEmailMessage">
+            Please enter your email address.
           </p>
         </div>
-      </div>
+
+        <div class="field">
+          <label class="field-label-compact" for="password">Password</label>
+          <div class="control has-icons-left">
+            <input id="password" class="input" type="password" placeholder="Your password"
+                   autocomplete="current-password" ws-var="Password" ws-attr="AttrPassword" />
+            <span class="icon is-small is-left">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                   stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="10.5" width="16" height="9.5" rx="2"></rect>
+                <path d="M7.5 10.5V7.5a4.5 4.5 0 0 1 9 0v3"></path>
+              </svg>
+            </span>
+          </div>
+          <p class="help is-danger login-error" ws-attr="AttrPasswordMessage">
+            Please enter your password.
+          </p>
+        </div>
+
+        <div class="field login-options">
+          <label class="checkbox has-text-grey">
+            <input type="checkbox" ws-var="RememberMe" /> Remember me
+          </label>
+          <a class="is-size-7" href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="button is-primary is-fullwidth is-medium">Sign in</button>
+      </form>
+
+      <p class="has-text-centered login-foot">
+        Don't have an account? <a href="#">Sign up</a>
+      </p>
     </div>
-  </section>
-  <script type="text/javascript" src="Content/MyProject.min.js"></script>
+  </main>
+
+  <script type="module" src="Scripts/LoginWithBulma.min.js"></script>
 </body>
 </html>
